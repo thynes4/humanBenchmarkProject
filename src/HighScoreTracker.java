@@ -60,10 +60,13 @@ public class HighScoreTracker {
     }
 
     public void printScores() {
-        File outFile = new File("resources/"+username+"scores.csv");
+        File outFile = new File("resources/"+username+"_scores.csv");
         try {
             if(!outFile.exists()) {
-                outFile.createNewFile();
+                boolean created = outFile.createNewFile();
+                if(!created) {
+                    System.out.println("Could not create scores file");
+                }
             }
 
             FileWriter writer = new FileWriter(outFile);

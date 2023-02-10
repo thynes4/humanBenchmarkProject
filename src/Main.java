@@ -72,6 +72,12 @@ public class Main extends Application {
         menu.getChildren().addAll(titleBox, startReactionTime, startSequenceMemory, startAimTrainer,
                 startNumberMemory, startVerbalMemory, startChimpTest, startVisualMemory, startTyping, getScores);
 
+        usernameField.setFont(Font.font(20));
+        usernameField.setBackground(Background.fill(Color.rgb(61,116,198)));
+        usernameField.setStyle("-fx-text-fill: white;");
+        usernameField.setBorder(new Border(new BorderStroke(Color.rgb(96,162,244),BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        usernameField.setPrefSize(100,40);
+
         root.setCenter(drawBootScreen(usernameField));
 
         stage.setScene(new Scene(root, 800, 600));
@@ -283,8 +289,9 @@ public class Main extends Application {
                     root.setCenter(a.getRoot());
                     break;
                 case 4:
-                    NumberMemoryGame n = new NumberMemoryGame();
-                    n.start(root);
+                    NumberMemoryGame n = new NumberMemoryGame(h);
+                    root.setCenter(null);
+                    root.setCenter(n.getRoot());
                     break;
                 case 5:
                     VerbalMemoryGame v = new VerbalMemoryGame();
