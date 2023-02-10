@@ -136,7 +136,6 @@ public class Main extends Application {
         });
 
         getScores.setOnAction(event -> {
-            System.out.println(h.getUsername() + " " + h.getHighScores(1));
             h.printScores();
             stage.close();
         });
@@ -274,12 +273,14 @@ public class Main extends Application {
                     root.setCenter(r.getRoot());
                     break;
                 case 2:
-                    SequenceMemoryGame s = new SequenceMemoryGame();
-                    s.start(root);
+                    SequenceMemoryGame s = new SequenceMemoryGame(h);
+                    root.setCenter(null);
+                    root.setCenter(s.getRoot());
                     break;
                 case 3:
-                    AimTrainerGame a = new AimTrainerGame();
-                    a.start(root);
+                    AimTrainerGame a = new AimTrainerGame(h);
+                    root.setCenter(null);
+                    root.setCenter(a.getRoot());
                     break;
                 case 4:
                     NumberMemoryGame n = new NumberMemoryGame();

@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
-public class ReactionTimeGame {
+public class ReactionTimeGame extends Game {
     private final BorderPane root;
     private final VBox greenBox;
     private final VBox keepGoing;
@@ -24,41 +24,24 @@ public class ReactionTimeGame {
     public ReactionTimeGame(HighScoreTracker h) {
         root = new BorderPane();
         greenBox = new VBox();
-        VBox buttonBox = new VBox();
-        Button initialStart = new Button("Start");
+        redBox = new VBox();
+        keepGoing = new VBox(7);
 
-        Label dotDotDot2 = new Label("...");
-        Label click = new Label("Click!");
+        VBox buttonBox = getBlueVbox();
+        Button initialStart = makeButtonGood(new Button("Start"));
+
+        Label dotDotDot2 = makeLabelGood(new Label("..."));
+        Label click = makeLabelGood(new Label("Click!"));
         VBox buffBox2 = new VBox();
         buffBox2.setPrefHeight(100);
-
-        click.setTextAlignment(TextAlignment.CENTER);
-        click.setFont(Font.font("Helvetica", FontWeight.BOLD, 40));
-        click.setTextFill(Color.WHITE);
-
-        dotDotDot2.setTextAlignment(TextAlignment.CENTER);
-        dotDotDot2.setFont(Font.font("Helvetica", FontWeight.BOLD, 40));
-        dotDotDot2.setTextFill(Color.WHITE);
 
         greenBox.setBackground(Background.fill(Color.rgb(113, 219, 93)));
         greenBox.setAlignment(Pos.BASELINE_CENTER);
         greenBox.getChildren().addAll(buffBox2,dotDotDot2, click);
 
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setBackground(Background.fill(Color.rgb(71,136,214)));
-        initialStart.setPrefSize(120,50);
-        initialStart.setBackground(Background.fill(Color.LIGHTGREY));
-        initialStart.setBorder(Border.stroke(Color.BLACK));
-        initialStart.setFont(Font.font("Helvetica", FontWeight.BOLD,20));
-
-        keepGoing = new VBox(7);
-        Label clickToGo = new Label("Click to keep going");
+        Label clickToGo = makeLabelGood(new Label("Click to keep going"));
         VBox buffBox3 = new VBox();
         buffBox3.setPrefHeight(100);
-
-        clickToGo.setTextAlignment(TextAlignment.CENTER);
-        clickToGo.setFont(Font.font("Helvetica", FontWeight.BOLD, 40));
-        clickToGo.setTextFill(Color.WHITE);
 
         keepGoing.setBackground(Background.fill(Color.rgb(71,136,214)));
         keepGoing.setAlignment(Pos.BASELINE_CENTER);
@@ -66,15 +49,11 @@ public class ReactionTimeGame {
         reactionTimeValue = new SimpleLongProperty(0);
         HBox reactionTimeHBox = new HBox(1);
         Label reactionTime = new Label();
-        Label msUnits = new Label("ms");
+        Label msUnits = makeLabelGood(new Label("ms"));
 
         reactionTime.setTextAlignment(TextAlignment.CENTER);
         reactionTime.setFont(Font.font("Helvetica", FontWeight.BOLD,40));
         reactionTime.setTextFill(Color.WHITE);
-
-        msUnits.setTextAlignment(TextAlignment.CENTER);
-        msUnits.setFont(Font.font("Helvetica", FontWeight.BOLD,40));
-        msUnits.setTextFill(Color.WHITE);
 
         reactionTimeHBox.setAlignment(Pos.CENTER);
 
@@ -83,19 +62,10 @@ public class ReactionTimeGame {
         keepGoing.getChildren().addAll(buffBox3, reactionTimeHBox, clickToGo);
         buttonBox.getChildren().addAll(initialStart);
 
-        redBox = new VBox();
-        Label dotDotDot = new Label("...");
-        Label waitGreen = new Label("Wait for green");
+        Label dotDotDot = makeLabelGood(new Label("..."));
+        Label waitGreen = makeLabelGood(new Label("Wait for green"));
         VBox buffBox1 = new VBox();
         buffBox1.setPrefHeight(100);
-
-        waitGreen.setTextAlignment(TextAlignment.CENTER);
-        waitGreen.setFont(Font.font("Helvetica", FontWeight.BOLD,40));
-        waitGreen.setTextFill(Color.WHITE);
-
-        dotDotDot.setTextAlignment(TextAlignment.CENTER);
-        dotDotDot.setFont(Font.font("Helvetica", FontWeight.BOLD,40));
-        dotDotDot.setTextFill(Color.WHITE);
 
         redBox.setBackground(Background.fill(Color.rgb(191,35,51)));
         redBox.setAlignment(Pos.BASELINE_CENTER);

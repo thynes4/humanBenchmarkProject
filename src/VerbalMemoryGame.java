@@ -1,6 +1,6 @@
 import javafx.scene.layout.BorderPane;
 
-public class VerbalMemoryGame extends Main {
+public class VerbalMemoryGame {
     public void start(BorderPane root) {
         root.setCenter(null);
     }
