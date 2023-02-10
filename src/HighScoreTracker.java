@@ -73,7 +73,8 @@ public class HighScoreTracker {
             writer.write("name, reaction_time, sequence_memory, aim_trainer, chimp_test, visual_memory," +
                             " typing, number_memory, verbal_memory\n");
 
-            writer.write(username + ", " + highScore1 + "ms, " + highScore2 + ", " + highScore3+ "ms,");
+            writer.write(username + ", " + highScore1 + "ms, " + highScore2 + ", " + highScore3+ "ms, " + highScore4
+            + ",");
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

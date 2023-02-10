@@ -167,9 +167,7 @@ public class SequenceMemoryGame extends Game {
     }
 
     private void updateHighScore(HighScoreTracker h) {
-        if (h.getHighScores(2) == 0) {
-            h.setHighScores(level.longValue(), 2);
-        } else if (h.getHighScores(2) > level.longValue()) {
+        if (h.getHighScores(2) < level.longValue()) {
             h.setHighScores(level.longValue(), 2);
         }
     }

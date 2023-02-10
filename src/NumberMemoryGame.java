@@ -3,6 +3,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ public class NumberMemoryGame extends Game {
     private final TextField numberField;
     private final LongProperty numToMemorize;
     private final VBox peakBox;
+    private final VBox endScreen;
     private final VBox answerBox;
     public NumberMemoryGame(HighScoreTracker h) {
         this.h = h;
@@ -29,29 +31,47 @@ public class NumberMemoryGame extends Game {
         peakBox = getBlueVbox();
         numToMemorize = new SimpleLongProperty(0);
         root = new BorderPane();
-        level = new SimpleIntegerProperty(1);
+        level = new SimpleIntegerProperty(0);
         VBox buttonBox = getBlueVbox();
+        HBox buff1 = new HBox();
+        HBox buff2 = new HBox();
+        HBox scoreHolder = new HBox();
         Button initialStart = makeButtonGood(new Button("Start"));
+        Label score = makeLabelGood(new Label("Score: "));
+        Label showScore = makeLabelGood(new Label());
+        Label resetToStartAgain = makeLabelGood(new Label("Click reset to try again."));
+        endScreen = getBlueVbox();
+
+        showScore.textProperty().bind(level.asString());
+
+        scoreHolder.getChildren().addAll(score,showScore);
+        scoreHolder.setAlignment(Pos.CENTER);
+        endScreen.getChildren().addAll(scoreHolder, resetToStartAgain);
+
+        answerBox.setSpacing(10);
 
         numberField = new TextField();
         Label whatWasIt = makeLabelGood(new Label("What was the number?"));
         Label pressEnter = makeLabelGood(new Label("Press enter to submit"));
 
-        whatWasIt.setFont(Font.font("Helvetica", FontWeight.SEMI_BOLD,30));
+        buff2.setPrefWidth(167);
+        buff1.setPrefWidth(200);
+        whatWasIt.setFont(Font.font("Helvetica", FontWeight.BOLD,30));
         pressEnter.setFont(Font.font("Helvetica", FontWeight.SEMI_BOLD,15));
 
         numberField.setFont(Font.font(20));
         numberField.setBackground(Background.fill(Color.rgb(61,116,198)));
         numberField.setStyle("-fx-text-fill: white;");
         numberField.setBorder(new Border(new BorderStroke(Color.rgb(96,162,244),BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        numberField.setPrefSize(30,40);
+        numberField.setPrefSize(300,40);
 
 
         Label showNumber = makeLabelGood(new Label());
         showNumber.textProperty().bind(numToMemorize.asString());
         showNumber.setFont(Font.font("Helvetica", FontWeight.BOLD,70));
 
-        answerBox.getChildren().addAll(whatWasIt,pressEnter,numberField);
+        buff1.getChildren().addAll(buff2, numberField);
+        answerBox.getChildren().addAll(whatWasIt,pressEnter,buff1);
         buttonBox.getChildren().addAll(initialStart);
         peakBox.getChildren().add(showNumber);
         root.setCenter(buttonBox);
@@ -65,6 +85,8 @@ public class NumberMemoryGame extends Game {
                 start();
             } else {
                 root.setCenter(null);
+                root.setCenter(endScreen);
+                updateHighScore();
             }
         });
     }
@@ -73,7 +95,7 @@ public class NumberMemoryGame extends Game {
             final long startTime = System.nanoTime();
             @Override
             public void handle(long now) {
-                if (now > startTime + (TimeUnit.SECONDS.toNanos(1) * level.getValue().longValue())) {
+                if (now > startTime + ((TimeUnit.SECONDS.toNanos(1) * ((level.getValue().longValue())+1))*.7)) {
                     root.setCenter(null);
                     root.setCenter(answerBox);
                     this.stop();
@@ -87,11 +109,17 @@ public class NumberMemoryGame extends Game {
     }
     private void getNewNumToMemorize() {
         int lvl = level.intValue();
-        long lowBound = (long) Math.pow(10,lvl-1);
-        long upBound = (long) Math.pow(10,lvl-1) * 9;
+        long lowBound = (long) Math.pow(10,lvl);
+        long upBound = (long) Math.pow(10,lvl) * 9;
         numToMemorize.setValue(lowBound + new Random().nextLong(upBound));
     }
     public Node getRoot(){
         return root;
+    }
+
+    private void updateHighScore() {
+        if (h.getHighScores(4) < level.longValue()) {
+            h.setHighScores(level.longValue(), 4);
+        }
     }
 }
