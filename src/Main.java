@@ -52,7 +52,7 @@ public class Main extends Application {
 
         for (Button b : buttonList) {
             b.setPrefSize(350, 47);
-            b.setBackground(Background.fill(Color.LIGHTGREY));
+            b.setBackground(Background.fill(Color.rgb(163,196,235)));
             b.setBorder(Border.stroke(Color.BLACK));
             b.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
             // Change button font and appearance
@@ -213,11 +213,11 @@ public class Main extends Application {
         resetButton.setPrefSize(120, 50);
         backButton.setPrefSize(120, 50);
 
-        resetButton.setBackground(Background.fill(Color.LIGHTGREY));
+        resetButton.setBackground(Background.fill(Color.rgb(163,196,235)));
         resetButton.setBorder(Border.stroke(Color.BLACK));
         resetButton.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
 
-        backButton.setBackground(Background.fill(Color.LIGHTGREY));
+        backButton.setBackground(Background.fill(Color.rgb(163,196,235)));
         backButton.setBorder(Border.stroke(Color.BLACK));
         backButton.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
 

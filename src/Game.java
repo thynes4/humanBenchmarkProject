@@ -23,7 +23,7 @@ public class Game {
 
     public Button makeButtonGood(Button button) {
         button.setPrefSize(120,50);
-        button.setBackground(Background.fill(Color.LIGHTGREY));
+        button.setBackground(Background.fill(Color.rgb(163,196,235)));
         button.setBorder(Border.stroke(Color.BLACK));
         button.setFont(Font.font("Helvetica", FontWeight.BOLD,20));
         return button;

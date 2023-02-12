@@ -42,6 +42,10 @@ public class NumberMemoryGame extends Game {
         Label resetToStartAgain = makeLabelGood(new Label("Click reset to try again."));
         endScreen = getBlueVbox();
 
+        showScore.setFont(Font.font("Helvetica", FontWeight.BOLD, 60));
+        score.setFont(Font.font("Helvetica", FontWeight.BOLD,60));
+        resetToStartAgain.setFont(Font.font("Helvetica", FontWeight.BOLD,17));
+
         showScore.textProperty().bind(level.asString());
 
         scoreHolder.getChildren().addAll(score,showScore);
