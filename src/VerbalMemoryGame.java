@@ -130,6 +130,7 @@ public class VerbalMemoryGame extends Game {
                 if (lives.get() == 0) {
                     words.set(score.get());
                     root.setCenter(null);
+                    updateHighScore();
                     root.setCenter(endScreen);
                 }
                 chooseNextSource();
@@ -147,6 +148,7 @@ public class VerbalMemoryGame extends Game {
                 if (lives.get() == 0) {
                     words.set(score.get());
                     root.setCenter(null);
+                    updateHighScore();
                     root.setCenter(endScreen);
                 }
                 chooseNextSource();
@@ -181,6 +183,12 @@ public class VerbalMemoryGame extends Game {
             getRandomWord(usedWords);
         } else {
             getRandomWord(unusedWords);
+        }
+    }
+
+    private void updateHighScore() {
+        if (h.getHighScores(5) < words.intValue()) {
+            h.setHighScores(words.intValue(), 5);
         }
     }
 }
