@@ -294,8 +294,9 @@ public class Main extends Application {
                     root.setCenter(n.getRoot());
                     break;
                 case 5:
-                    VerbalMemoryGame v = new VerbalMemoryGame();
-                    v.start(root);
+                    VerbalMemoryGame v = new VerbalMemoryGame(h);
+                    root.setCenter(null);
+                    root.setCenter(v.getRoot());
                     break;
                 case 6:
                     ChimpTestGame chimp = new ChimpTestGame();
