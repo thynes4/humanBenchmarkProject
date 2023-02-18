@@ -17,6 +17,9 @@ import javafx.util.Pair;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Welcome to Aim Trainer
+ */
 public class AimTrainerGame extends Game {
     private final HighScoreTracker h;
     private final LongProperty timePerTarget;
@@ -27,6 +30,11 @@ public class AimTrainerGame extends Game {
     private final Pane gameBox;
     private final VBox endScreen;
     private final BorderPane root;
+
+    /**
+     * Draws the initial game and the number of targets tracker and the final end screen
+     * @param h the high score tracker passed to the game to be updated if a new high score is achieved
+     */
     public AimTrainerGame(HighScoreTracker h) {
         this.h = h;
         root = new BorderPane();
@@ -73,6 +81,12 @@ public class AimTrainerGame extends Game {
 
         initialStart.setOnAction(this::start);
     }
+
+    /**
+     * begins a timer that will end when 30 targets are pressed, then will set to the end screen and update the
+     * high score.
+     * @param actionEvent starts when the start button is pressed
+     */
     public void start(ActionEvent actionEvent) {
         startTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
@@ -95,6 +109,11 @@ public class AimTrainerGame extends Game {
         root.setCenter(gameBox);
         createTarget(30);
     }
+
+    /**
+     *  Draws a target and gives it the hit target behavior and removes itself when it is clicked
+     * @param radius size of target
+     */
     private void createTarget(double radius) {
         Color color = new Color(1, 1, 1, .5);
         Pair<Double, Double> xy = getRandXY(radius * 2);
@@ -109,18 +128,37 @@ public class AimTrainerGame extends Game {
             }
         });
     }
+
+    /**
+     *  Gets random X and Y value for where a target can be drawn
+     * @param lowerBound smallest X and Y value possible for size of pane
+     * @return random XY that fits within the pane
+     */
     private Pair<Double, Double> getRandXY(double lowerBound) {
         Random rand = new Random();
         double randX = rand.nextDouble(lowerBound, 550);
         double randY = rand.nextDouble(lowerBound, 550);
         return new Pair<>(randX, randY);
     }
+
+    /**
+     * Changes the remaining targets when a target is clicked
+     */
     private void hitTarget() {
         targetsRemaining.setValue(targetsRemaining.get() - 1);
     }
+
+    /**
+     * @return the root containing the game to the Main class
+     */
     public Pane getRoot() {
         return root;
     }
+
+    /**
+     * Checks to see if a new high score is reached and if so it updates the high score tracker
+     * @param h updated with new high score for game
+     */
     private void updateHighScore(HighScoreTracker h) {
         if (h.getHighScores(3) == 0) {
             h.setHighScores(timePerTarget.longValue(), 3);

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+/** Welcome to Sequence Memory Game **/
 public class SequenceMemoryGame extends Game {
     private final List<Integer> pattern;
     private final List<VBox> tiles;
@@ -26,6 +27,12 @@ public class SequenceMemoryGame extends Game {
     private final VBox endScreen;
     private int current;
     private final IntegerProperty level;
+
+    /**
+     * Contains the drawing for the game but most of the game functionality is stored in the
+     * generateClickGrid function
+     * @param h high score tracker to be updated
+     */
     public SequenceMemoryGame(HighScoreTracker h) {
         level = new SimpleIntegerProperty(1);
         pattern = new ArrayList<>();
@@ -96,10 +103,16 @@ public class SequenceMemoryGame extends Game {
             flashPattern();
         });
     }
+    /**
+     * @return the root containing the game to the Main class
+     */
     public Node getRoot(){
         return root;
     }
 
+    /**
+     * @return a square tile to add to the grid
+     */
     private VBox drawTile() {
         VBox tile = new VBox();
         tile.setPrefSize(100,100);
@@ -107,19 +120,33 @@ public class SequenceMemoryGame extends Game {
         return tile;
     }
 
+    /**
+     * turns tile at index white
+     * @param index position in list of tile to turn white
+     */
     private void turnWhite(int index) {
         tiles.get(index).setBackground(Background.fill(Color.WHITE));
     }
 
+    /**
+     * turns tile at index blue
+     * @param index position in list of tile to turn blue
+     */
     private void turnBlue(int index) {
         tiles.get(index).setBackground(Background.fill(Color.rgb(61,116,198)));
     }
 
+    /**
+     * Adds one to the current pattern
+     */
     private void addOnePattern() {
         Random rand = new Random();
         pattern.add(rand.nextInt(0, 9));
     }
 
+    /**
+     * Reveals the current pattern in order showing each highlighted pane for one second
+     */
     private void flashPattern () {
         AnimationTimer a = new AnimationTimer() {
             long startTime = System.nanoTime();
@@ -141,6 +168,10 @@ public class SequenceMemoryGame extends Game {
         a.start();
     }
 
+    /**
+     * updates the level, adds one to the pattern, reveals the patten and then sets the behavior of the tiles
+     * @param current the current level
+     */
     private void generateClickGrid(int current) {
         if (current == pattern.size()) {
             level.set(level.get() + 1);
@@ -165,7 +196,10 @@ public class SequenceMemoryGame extends Game {
             }
         }
     }
-
+    /**
+     * Checks to see if a new high score is reached and if so it updates the high score tracker
+     * @param h updated with new high score for game
+     */
     private void updateHighScore(HighScoreTracker h) {
         if (h.getHighScores(2) < level.longValue()) {
             h.setHighScores(level.longValue(), 2);

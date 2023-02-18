@@ -13,7 +13,7 @@ import javafx.scene.text.TextAlignment;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-
+/** Welcome to Reaction Time Game **/
 public class ReactionTimeGame extends Game {
     private final BorderPane root;
     private final VBox greenBox;
@@ -21,6 +21,11 @@ public class ReactionTimeGame extends Game {
     private final VBox redBox;
     private long reactionStartTime;
     private final LongProperty reactionTimeValue;
+
+    /**
+     * Draws the game and sets the behavior of what to do when each different color screen is pressed
+     * @param h high score tracker
+     */
     public ReactionTimeGame(HighScoreTracker h) {
         root = new BorderPane();
         greenBox = new VBox();
@@ -79,6 +84,12 @@ public class ReactionTimeGame extends Game {
 
         reactionTime.textProperty().bind(reactionTimeValue.asString());
     }
+
+    /**
+     * Sets the screen to the red box then waits a random reasonable amount of time then sets the screen
+     * to the green box to be clicked
+     * @param event starts when start button is pressed
+     */
     public void startTimer(Event event) {
         Random rand = new Random();
         root.setCenter(null);
@@ -109,6 +120,11 @@ public class ReactionTimeGame extends Game {
         b.start();
     }
 
+    /**
+     * When the green box is clicked this will calculate and send the score to check if it's a new highs core and then will
+     * ask the user if they wish to keep going
+     * @param h HighScoreTracker to be updated
+     */
     public void finishTimer(HighScoreTracker h) {
         long finishTime = System.nanoTime();
         long reactionTimeNano = finishTime - reactionStartTime;
@@ -119,9 +135,16 @@ public class ReactionTimeGame extends Game {
         root.setCenter(keepGoing);
     }
 
+    /**
+     * @return the root containing the game to the Main class
+     */
     public Pane getRoot() {
         return root;
     }
+    /**
+     * Checks to see if a new high score is reached and if so it updates the high score tracker
+     * @param h updated with new high score for game
+     */
     private void updateHighScore(HighScoreTracker h) {
         if (h.getHighScores(1) == 0) {
             h.setHighScores(reactionTimeValue.longValue(),1);

@@ -11,16 +11,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.util.List;
+
+/** Welcome to Human Benchmark! **/
+
 public class Main extends Application {
+
+    //keeps track of current game being played
     private int currentGame;
-
-    public Main() {
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
 
+    //Draws the username screen, menu screen, and back and reset buttons. defines
+    //behavior of these screens aswell
     @Override
     public void start(Stage stage) {
 
@@ -50,6 +53,7 @@ public class Main extends Application {
                 startVerbalMemory, startChimpTest, startVisualMemory, startTyping, getScores
         );
 
+        //Menu buttons
         for (Button b : buttonList) {
             b.setPrefSize(350, 47);
             b.setBackground(Background.fill(Color.rgb(163,196,235)));
@@ -83,6 +87,7 @@ public class Main extends Application {
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
 
+        //setting the menu buttons to proper game start behaviors
         usernameField.setOnAction(event -> {
             h.setUsername(usernameField.getText());
             root.setCenter(null);
@@ -151,6 +156,7 @@ public class Main extends Application {
             root.setCenter(menu);
         });
 
+        //reset button switches over what the current game is so that when you reset the game you go to the correct screen.
         resetButton.setOnAction(event -> {
             switch (currentGame) {
                 case 1:
@@ -187,6 +193,13 @@ public class Main extends Application {
         });
     }
 
+    /**
+     * draws the game menu that will be on the left side of every game it takes in a predefined reset and back button
+     * that was created and behavior was set in the initial start of the stage
+     * @param resetButton button to reset the current game
+     * @param backButton button to go back to the menu
+     * @return VBox that will be placed on the left of the screen with two buttons
+     */
     private VBox drawGameMenu(Button resetButton, Button backButton) {
 
         VBox buffer = new VBox();
@@ -228,6 +241,11 @@ public class Main extends Application {
         return gameMenu;
     }
 
+    /**
+     * Draws the intial screen for the user to enter their username given a username field
+     * @param usernameField where user enters name
+     * @return VBox of the first screen to be displayed
+     */
     private VBox drawBootScreen(TextField usernameField) {
         Label enterUserLabel = new Label("Enter Username:");
         VBox bootScreen = new VBox();
@@ -250,6 +268,15 @@ public class Main extends Application {
         return bootScreen;
     }
 
+    /**
+     * Sets up an initial screen of the game title and short description of each game when any of the game buttons
+     * is pressed also creates new instances of the games when this is done and passes the instance of the game
+     * to the center of the border pane.
+     * @param root the borderpane that will contain the behavior
+     * @param h the high score tracker passed to the given games
+     * @param title the game of the game selected
+     * @param subtitle a short description of that game
+     */
     public void drawInitialScreen(BorderPane root, HighScoreTracker h, String title, String subtitle) {
         VBox bufferBox = new VBox();
         VBox titleBox = new VBox();

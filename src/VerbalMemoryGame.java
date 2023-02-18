@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/** Welcome to Verbal Memory Game **/
 public class VerbalMemoryGame extends Game {
     private final BorderPane root;
     private final HighScoreTracker h;
@@ -28,6 +29,12 @@ public class VerbalMemoryGame extends Game {
     private final IntegerProperty lives;
     private final IntegerProperty words;
     private final VBox endScreen;
+
+    /**
+     * Draws the Verbal memory game and contains the logic for the two buttons that can be pressed
+     * in order to progress the game
+     * @param h high score tracker to be updated
+     */
     public VerbalMemoryGame (HighScoreTracker h) {
         this.h = h;
         root = new BorderPane();
@@ -155,9 +162,17 @@ public class VerbalMemoryGame extends Game {
             }
         });
     }
+    /**
+     * @return the root containing the game to the Main class
+     */
     public Node getRoot(){
         return root;
     }
+
+    /**
+     * Reads in dictionary file from a dictionary.txt file in the resources, stores all of these values into the
+     * unused words list
+     */
     private void readInDictionary() {
         BufferedReader reader;
         try {
@@ -172,11 +187,19 @@ public class VerbalMemoryGame extends Game {
             e.printStackTrace();
         }
     }
+
+    /**
+     * picks a random word
+     * @param source either used or unused words list
+     */
     private void getRandomWord(List<String> source) {
         Random rand = new Random();
         currentWord.setValue(source.get(rand.nextInt(source.size())));
     }
-
+    /**
+     * chooses if next word should be from unused or used list
+     * will choose an unused word 2/3s of the time
+     */
     private void chooseNextSource() {
         Random rand = new Random();
         if (rand.nextInt(2) == 1) {
@@ -185,7 +208,9 @@ public class VerbalMemoryGame extends Game {
             getRandomWord(unusedWords);
         }
     }
-
+    /**
+     * Checks to see if a new high score is reached and if so it updates the high score tracker
+     */
     private void updateHighScore() {
         if (h.getHighScores(5) < words.intValue()) {
             h.setHighScores(words.intValue(), 5);

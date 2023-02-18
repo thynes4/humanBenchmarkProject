@@ -25,6 +25,12 @@ public class NumberMemoryGame extends Game {
     private final VBox peakBox;
     private final VBox endScreen;
     private final VBox answerBox;
+
+    /**
+     * Draws the game, and specifies the behavior of what to do if the number entered is incorrect
+     * and what to do if the number entered is correct
+     * @param h the high score tracker to be updated if new high score is achieved
+     */
     public NumberMemoryGame(HighScoreTracker h) {
         this.h = h;
         answerBox = getBlueVbox();
@@ -94,6 +100,9 @@ public class NumberMemoryGame extends Game {
             }
         });
     }
+    /**
+     * used to flash the number that the user must enter then shows the answer box
+     */
     public void start() {
         AnimationTimer timer = new AnimationTimer() {
             final long startTime = System.nanoTime();
@@ -111,16 +120,25 @@ public class NumberMemoryGame extends Game {
         root.setCenter(peakBox);
         timer.start();
     }
+    /**
+     * Gets new number to memorize with the length based on the current level
+     */
     private void getNewNumToMemorize() {
         int lvl = level.intValue();
         long lowBound = (long) Math.pow(10,lvl);
         long upBound = (long) Math.pow(10,lvl) * 9;
         numToMemorize.setValue(lowBound + new Random().nextLong(upBound));
     }
+    /**
+     * @return the root containing the game to the Main class
+     */
     public Node getRoot(){
         return root;
     }
 
+    /**
+     * Checks to see if a new high score is reached and if so it updates the high score tracker
+     */
     private void updateHighScore() {
         if (h.getHighScores(4) < level.longValue()) {
             h.setHighScores(level.longValue(), 4);
