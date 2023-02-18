@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -60,22 +61,28 @@ public class HighScoreTracker {
     }
 
     public void printScores() {
-        File outFile = new File("resources/"+username+"_scores.csv");
+        File outFile = new File("resources/scores.csv");
+
         try {
+
             if(!outFile.exists()) {
-                boolean created = outFile.createNewFile();
-                if(!created) {
-                    System.out.println("Could not create scores file");
-                }
+                outFile.createNewFile();
+                FileWriter writer = new FileWriter(outFile);
+                BufferedWriter br2 = new BufferedWriter(writer);
+                br2.write("    name, reaction_time, sequence_memory, aim_trainer, chimp_test, visual_memory," +
+                        " typing, number_memory, verbal_memory");
+                br2.close();
+                writer.close();
             }
 
-            FileWriter writer = new FileWriter(outFile);
-            writer.write("name, reaction_time, sequence_memory, aim_trainer, chimp_test, visual_memory," +
-                            " typing, number_memory, verbal_memory\n");
-
-            writer.write(username + ", " + highScore1 + "ms, " + highScore2 + ", " + highScore3+ "ms, " + highScore4
-            + ", " + highScore5 + ",");
-            writer.close();
+            FileWriter writer2 = new FileWriter(outFile, true);
+            BufferedWriter br = new BufferedWriter(writer2);
+            br.append("\n").append(String.format("%8s", username)).append(", ").append(String.valueOf(String.format("%6s", highScore1))).append("ms, ").append(String.valueOf(String.format("%6s", highScore2)))
+                    .append(", ").append(String.valueOf(String.format("%6s", highScore3))).append("ms, ").append(String.valueOf(String.format("%6s", highScore4))).append(", ")
+                    .append(String.valueOf(String.format("%6s", highScore5))).append(", ").append(String.valueOf(String.format("%6s", highScore6))).append(", ")
+                    .append(String.valueOf(String.format("%6s", highScore7))).append(", ").append(String.valueOf(String.format("%6s", highScore8)));
+            br.close();
+            writer2.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
